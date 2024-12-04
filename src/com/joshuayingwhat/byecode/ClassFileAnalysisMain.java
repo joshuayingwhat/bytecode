@@ -12,6 +12,7 @@ public class ClassFileAnalysisMain {
         ByteBuffer buffer = readClassFile("C:\\Users\\joshu\\Desktop\\bytecode\\src\\com\\joshuayingwhat\\byecode\\TestClass.class");
         ClassFile classFile = new ClassFileAnalysiser().analysis(buffer);
         System.out.println(classFile.getMagic().toHexString());
+        System.out.println(classFile.getMinor_version().toHexString() + " ---- " + classFile.getMajor_vresion().toHexString());
     }
 
     //读文件

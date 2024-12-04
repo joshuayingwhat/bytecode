@@ -1,6 +1,7 @@
 package com.joshuayingwhat.byecode.handler;
 
 import com.joshuayingwhat.byecode.ClassFile;
+import com.joshuayingwhat.byecode.type.U2;
 
 import java.nio.ByteBuffer;
 
@@ -13,9 +14,16 @@ public class VersionHandler implements BaseByteCodeHandler {
         return 1;
     }
 
-
+    /**
+     * 解析版本号
+     * @param codeBuff
+     * @param classFile
+     */
     @Override
     public void read(ByteBuffer codeBuff, ClassFile classFile) {
-
+        U2 minor_version = new U2(codeBuff.get(), codeBuff.get());
+        classFile.setMinor_version(minor_version);
+        U2 major_version = new U2(codeBuff.get(), codeBuff.get());
+        classFile.setMajor_vresion(major_version);
     }
 }
