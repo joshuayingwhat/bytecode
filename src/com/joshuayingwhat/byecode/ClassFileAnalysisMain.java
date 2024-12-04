@@ -1,17 +1,37 @@
 package com.joshuayingwhat.byecode;
 
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+
 //TIP 要<b>运行</b>代码，请按 <shortcut actionId="Run"/> 或
 // 点击装订区域中的 <icon src="AllIcons.Actions.Execute"/> 图标。
 public class ClassFileAnalysisMain {
-    public static void main(String[] args) {
-        //TIP 当文本光标位于高亮显示的文本处时按 <shortcut actionId="ShowIntentionActions"/>
-        // 查看 IntelliJ IDEA 建议如何修正。
-        System.out.printf("Hello and welcome!");
+    public static void main(String[] args) throws Exception {
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP 按 <shortcut actionId="Debug"/> 开始调试代码。我们已经设置了一个 <icon src="AllIcons.Debugger.Db_set_breakpoint"/> 断点
-            // 但您始终可以通过按 <shortcut actionId="ToggleLineBreakpoint"/> 添加更多断点。
-            System.out.println("i = " + i);
+        ByteBuffer buffer = readClassFile("C:\\Users\\joshu\\Desktop\\bytecode\\src\\com\\joshuayingwhat\\byecode\\TestClass.class");
+        ClassFile classFile = new ClassFileAnalysiser().analysis(buffer);
+        System.out.println(classFile.getMagic().toHexString());
+    }
+
+    //读文件
+    public static ByteBuffer readClassFile(String path) throws Exception {
+        File file = new File(path);
+        if (!file.exists()) {
+            throw new Exception("文件不存在 " + path);
         }
+        byte[] bytes = new byte[4096];
+        int readLine;
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try {
+            InputStream in = new BufferedInputStream(Files.newInputStream(file.toPath()));
+            while ((readLine = in.read(bytes)) != -1) {
+                buffer.write(bytes, 0, readLine);
+            }
+        } catch (IOException e) {
+            throw new IOException("文件读取出错");
+        }
+
+        return ByteBuffer.wrap(buffer.toByteArray()).asReadOnlyBuffer();
     }
 }
