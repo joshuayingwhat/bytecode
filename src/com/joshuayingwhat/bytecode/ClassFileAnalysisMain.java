@@ -1,5 +1,8 @@
 package com.joshuayingwhat.bytecode;
 
+import com.joshuayingwhat.bytecode.type.U2;
+import com.joshuayingwhat.bytecode.utils.ClassAccessFlagUtil;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
@@ -11,6 +14,8 @@ public class ClassFileAnalysisMain {
 
         ByteBuffer buffer = readClassFile("C:\\Users\\joshu\\Desktop\\bytecode\\src\\com\\joshuayingwhat\\bytecode\\TestClass.class");
         ClassFile classFile = new ClassFileAnalysiser().analysis(buffer);
+        U2 accessFlags = classFile.getAccess_flags();
+        System.out.println(ClassAccessFlagUtil.getAccessFlag(accessFlags));
         System.out.println(classFile.getMagic().toHexString());
         System.out.println(classFile.getMinor_version().toHexString() + " ---- " + classFile.getMajor_vresion().toHexString());
     }

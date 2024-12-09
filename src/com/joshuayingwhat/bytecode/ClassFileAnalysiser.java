@@ -23,7 +23,7 @@ public class ClassFileAnalysiser {
         handlers.sort((Comparator.comparingInt(BaseByteCodeHandler::order)));//排序 按顺序解析
     }
 
-    public ClassFile analysis(ByteBuffer codeBuffer) {
+    public ClassFile analysis(ByteBuffer codeBuffer) throws Exception {
         codeBuffer.position(0);//从0开始读字节
         ClassFile classFile = new ClassFile();
         for (BaseByteCodeHandler handler : handlers) {

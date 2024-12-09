@@ -18,12 +18,12 @@ public class ConstantPoolHandler implements BaseByteCodeHandler {
     }
 
     @Override
-    public void read(ByteBuffer codeBuff, ClassFile classFile) {
+    public void read(ByteBuffer codeBuff, ClassFile classFile) throws Exception {
         //获取常量池大小
         U2 cp_len = new U2(codeBuff.get(), codeBuff.get());
         classFile.setConstant_pools(new CpInfo[cp_len.toInt() - 1]);
         classFile.setConstant_Pool_count(cp_len);
-        for (int i = 0; i < classFile.getConstant_Pool_count().toInt() - 1; i++) {
+        for (int i = 0; i < cp_len.toInt() - 1; i++) {
             U1 tag = new U1(codeBuff.get());
             CpInfo cpInfo = CpInfo.newCpInfo(tag);
             cpInfo.read(codeBuff);

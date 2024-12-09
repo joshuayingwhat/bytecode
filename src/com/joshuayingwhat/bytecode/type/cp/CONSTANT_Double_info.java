@@ -6,22 +6,8 @@ import com.joshuayingwhat.bytecode.type.U4;
 
 import java.nio.ByteBuffer;
 
-public class CONSTANT_Double_info extends CpInfo {
-    private U4 hight_bytes;
-    private U4 low_bytes;
-
+public class CONSTANT_Double_info extends CONSTANT_Long_info {
     public CONSTANT_Double_info(U1 tag) {
         super(tag);
-    }
-
-    @Override
-    public void read(ByteBuffer buffer) {
-        hight_bytes = new U4(buffer.get(), buffer.get(), buffer.get(), buffer.get());
-        low_bytes = new U4(buffer.get(), buffer.get(), buffer.get(), buffer.get());
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " CONSTANT_Double_info hight_bytes = " + hight_bytes.toHexString() + " low_bytes = " + low_bytes.toHexString();
     }
 }

@@ -7,5 +7,5 @@ import java.nio.ByteBuffer;
 public interface BaseByteCodeHandler {
     int order();
 
-    void read(ByteBuffer codeBuff, ClassFile classFile);
+    void read(ByteBuffer codeBuff, ClassFile classFile) throws Exception;
 }

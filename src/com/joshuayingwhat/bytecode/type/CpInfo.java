@@ -13,7 +13,7 @@ public abstract class CpInfo implements ConstantInfoHandler {
         this.tag = tag;
     }
 
-    public static CpInfo newCpInfo(U1 tag) {
+    public static CpInfo newCpInfo(U1 tag) throws Exception {
         CpInfo cp = null;
         switch (tag.toInt()) {
             case 1://UTF-8编码字符串
@@ -41,8 +41,7 @@ public abstract class CpInfo implements ConstantInfoHandler {
                 cp = new CONSTANT_InterfaceMethodref_info(tag);
                 break;
             default:
-                System.out.println("无法匹配常量池解析器 tag = " + tag.toInt());
-                break;
+                throw  new Exception("无法匹配到 tag="+tag.toInt());
         }
         return cp;
     }

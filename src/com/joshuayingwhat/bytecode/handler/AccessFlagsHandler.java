@@ -1,6 +1,7 @@
 package com.joshuayingwhat.bytecode.handler;
 
 import com.joshuayingwhat.bytecode.ClassFile;
+import com.joshuayingwhat.bytecode.type.U2;
 
 import java.nio.ByteBuffer;
 
@@ -15,6 +16,6 @@ public class AccessFlagsHandler implements BaseByteCodeHandler {
 
     @Override
     public void read(ByteBuffer codeBuff, ClassFile classFile) {
-
+        classFile.setAccess_flags(new U2(codeBuff.get(), codeBuff.get()));
     }
 }
