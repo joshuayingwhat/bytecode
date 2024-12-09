@@ -1,6 +1,8 @@
 package com.joshuayingwhat.bytecode;
 
 import com.joshuayingwhat.bytecode.type.U2;
+import com.joshuayingwhat.bytecode.type.cp.CONSTANT_Class_info;
+import com.joshuayingwhat.bytecode.type.cp.CONSTANT_Utf8_info;
 import com.joshuayingwhat.bytecode.utils.ClassAccessFlagUtil;
 
 import java.io.*;
@@ -18,6 +20,15 @@ public class ClassFileAnalysisMain {
         System.out.println(ClassAccessFlagUtil.getAccessFlag(accessFlags));
         System.out.println(classFile.getMagic().toHexString());
         System.out.println(classFile.getMinor_version().toHexString() + " ---- " + classFile.getMajor_vresion().toHexString());
+        //this和super符号引用
+        U2 thisClass = classFile.getThis_class();
+        CONSTANT_Class_info  this_class_info= (CONSTANT_Class_info) classFile.getConstant_pools()[thisClass.toInt() - 1];
+        CONSTANT_Utf8_info this_class_name = (CONSTANT_Utf8_info) classFile.getConstant_pools()[this_class_info.getName_index().toInt() - 1];
+        System.out.println(this_class_name);
+        U2 superClass = classFile.getSuper_class();
+        CONSTANT_Class_info super_class_info = (CONSTANT_Class_info) classFile.getConstant_pools()[superClass.toInt() - 1];
+        CONSTANT_Utf8_info super_class_name = (CONSTANT_Utf8_info) classFile.getConstant_pools()[super_class_info.getName_index().toInt() - 1];
+        System.out.println(super_class_name);
     }
 
     //读文件

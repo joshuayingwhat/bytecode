@@ -22,4 +22,12 @@ public class CONSTANT_Class_info extends CpInfo {
     public String toString() {
         return super.toString() + " CONSTANT_Class_info name_index = " + name_index.toHexString();
     }
+
+    public U2 getName_index() {
+        return name_index;
+    }
+
+    public void setName_index(U2 name_index) {
+        this.name_index = name_index;
+    }
 }
