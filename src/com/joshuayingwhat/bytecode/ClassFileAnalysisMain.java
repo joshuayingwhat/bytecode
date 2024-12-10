@@ -1,9 +1,11 @@
 package com.joshuayingwhat.bytecode;
 
+import com.joshuayingwhat.bytecode.type.FileInfo;
 import com.joshuayingwhat.bytecode.type.U2;
 import com.joshuayingwhat.bytecode.type.cp.CONSTANT_Class_info;
 import com.joshuayingwhat.bytecode.type.cp.CONSTANT_Utf8_info;
 import com.joshuayingwhat.bytecode.utils.ClassAccessFlagUtil;
+import com.joshuayingwhat.bytecode.utils.FiledAccessUtil;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -30,14 +32,33 @@ public class ClassFileAnalysisMain {
         System.out.println(super_class_name);
         //接口
         int interface_count = classFile.getInterface_count().toInt();
-        System.out.println("接口总数: "+interface_count);
-        for (int i = 0 ; i < interface_count;i++) {
+        System.out.println("接口总数: " + interface_count);
+        for (int i = 0; i < interface_count; i++) {
             U2 inteface = classFile.getInterfaces()[i];
             CONSTANT_Class_info constant_interface = (CONSTANT_Class_info) classFile.getConstant_pools()[inteface.toInt() - 1];
             CONSTANT_Utf8_info interface_name = (CONSTANT_Utf8_info) classFile.getConstant_pools()[constant_interface.getName_index().toInt() - 1];
-            System.out.println("接口名称:"+interface_name.toString());
+            System.out.println("接口名称:" + interface_name.toString());
         }
+        //字段和属性
+        U2 fieldsCount = classFile.getFields_count();
+        System.out.println("字段总数:" + fieldsCount.toInt());
+        FileInfo[] fileInfos = classFile.getFileInfos();
+        for (FileInfo fileInfo : fileInfos) {
+            System.out.println("访问标志和属性：" + FiledAccessUtil.get_field_access_flag(fileInfo.access_flags));
+            System.out.println("字段名："
+                    + getName(fileInfo.name_index, classFile));
+            System.out.println("字段的类型描述符："
+                    + getName(fileInfo.descriptor_index, classFile));
+            System.out.println("属性总数："
+                    + fileInfo.attributes_count.toInt());
+            System.out.println();
+        }
+    }
 
+    private static String getName(U2 name_index, ClassFile classFile) {
+        CONSTANT_Utf8_info name_info = (CONSTANT_Utf8_info)
+                classFile.getConstant_pools()[name_index.toInt() - 1];
+        return name_info.toString();
     }
 
     //读文件

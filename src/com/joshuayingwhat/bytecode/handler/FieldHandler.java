@@ -23,7 +23,9 @@ public class FieldHandler implements BaseByteCodeHandler {
         if (field_count.toInt() < 0) {
             return;
         }
+        classFile.setFields_count(field_count);
         FileInfo[] fileInfo = new FileInfo[field_count.toInt()];
+        classFile.setFileInfos(fileInfo);
         for (int i = 0; i < field_count.toInt(); i++) {
             fileInfo[i] = new FileInfo();
             fileInfo[i].access_flags = new U2(codeBuff.get(), codeBuff.get());
@@ -39,9 +41,12 @@ public class FieldHandler implements BaseByteCodeHandler {
             //解析每个属性
             for (int j = 0; j < attr_lenght; j++) {
                 fileInfo[i].attributeInfos[j].attribute_name_index = new U2(codeBuff.get(),codeBuff.get());
-                fileInfo[i].attributeInfos[j].attribute_length = new U4(codeBuff.get(),codeBuff.get(),codeBuff.get(),codeBuff.get());
+                U4 attributeLength = new U4(codeBuff.get(), codeBuff.get(), codeBuff.get(), codeBuff.get());
+                fileInfo[i].attributeInfos[j].attribute_length = attributeLength;
                 //解析info
-
+                byte[] info = new byte[attributeLength.toInt()];
+                codeBuff.get(info,0,info.length);
+                fileInfo[i].attributeInfos[j].info = info;
             }
         }
     }
