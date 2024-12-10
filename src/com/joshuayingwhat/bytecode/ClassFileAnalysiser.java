@@ -29,6 +29,7 @@ public class ClassFileAnalysiser {
         for (BaseByteCodeHandler handler : handlers) {
             handler.read(codeBuffer, classFile);
         }
+        System.out.println("class文件结构解析完成，解析是否正常(剩余未解析的字节数)：" + codeBuffer.remaining());
         return classFile;
     }
 }
