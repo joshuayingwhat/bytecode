@@ -1,6 +1,7 @@
 package com.joshuayingwhat.bytecode;
 
 import com.joshuayingwhat.bytecode.type.FileInfo;
+import com.joshuayingwhat.bytecode.type.MethodInfo;
 import com.joshuayingwhat.bytecode.type.U2;
 import com.joshuayingwhat.bytecode.type.cp.CONSTANT_Class_info;
 import com.joshuayingwhat.bytecode.type.cp.CONSTANT_Utf8_info;
@@ -51,6 +52,20 @@ public class ClassFileAnalysisMain {
                     + getName(fileInfo.descriptor_index, classFile));
             System.out.println("属性总数："
                     + fileInfo.attributes_count.toInt());
+            System.out.println();
+        }
+        //方法
+        U2 methodCount = classFile.getMethod_count();
+        System.out.println("方法总数:" + methodCount.toInt());
+        MethodInfo[] methods = classFile.getMethods();
+        for (MethodInfo method : methods) {
+            System.out.println("访问标志和属性：" + FiledAccessUtil.get_field_access_flag(method.getAccess_flags()));
+            System.out.println("字段名："
+                    + getName(method.getName_index(), classFile));
+            System.out.println("字段的类型描述符："
+                    + getName(method.getDescriptor_index(), classFile));
+            System.out.println("属性总数："
+                    + method.getAttribute_count().toInt());
             System.out.println();
         }
     }
